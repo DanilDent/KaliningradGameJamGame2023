@@ -109,19 +109,27 @@ public class PlayerMovementController
     {
         _movement = new Vector3(0f, 0f, Input.GetAxis("Horizontal"));
         _rigidbody.AddForce(_movement * _config.AirSpeed * Time.deltaTime, ForceMode.Force);
+        transform.forward = _rigidbody.velocity;
     }
 
     private void UpdateGrounded()
     {
-        Debug.DrawRay(_lowestPoint.position + Vector3.up * 0.025f, -Vector3.up * 0.05f, Color.red);
+        Debug.DrawRay(_lowestPoint.position + Vector3.up * 0.025f, -Vector3.up * 0.15f, Color.red);
         int groundLayerMask = LayerMask.GetMask("Ground");
-        if (Physics.Raycast(_lowestPoint.position + Vector3.up * 0.025f, -Vector3.up, out var hitInfo, 0.05f, groundLayerMask))
+        if (Physics.Raycast(_lowestPoint.position + Vector3.up * 0.025f, -Vector3.up, out var hitInfo, 0.15f, groundLayerMask))
         {
+            if (!_isGrounded)
+            {
+                _animController.UpdateIsJump(false);
+            }
             _isGrounded = true;
-            Debug.Log(hitInfo.collider.gameObject.layer);
         }
         else
         {
+            if (_isGrounded)
+            {
+                _animController.UpdateIsJump(true);
+            }
             _isGrounded = false;
         }
     }

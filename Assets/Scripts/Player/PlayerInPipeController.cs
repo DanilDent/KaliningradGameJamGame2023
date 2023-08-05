@@ -5,15 +5,12 @@ public class PlayerInPipeController : MonoBehaviour
     private EventService _eventService;
     private Transform _pipe;
     private Vector3 _input;
-    private Transform _gfx;
     private PlayerSO _config;
-    private Transform _head;
     private PlayerController _playerController;
 
     public void Init(Transform pipe, Transform gfx)
     {
         _pipe = pipe;
-        _gfx = gfx;
         _config = PlayerSettings.Instance.Config;
         _playerController = PlayerController.Instance;
     }
@@ -23,7 +20,6 @@ public class PlayerInPipeController : MonoBehaviour
         _eventService = EventService.Instance;
         _eventService.InteractButtonReleased += HandleInteractButtonReleased;
 
-        _head = transform.Find("Gfx/Head");
         _playerController.TensionMultiplier = 1.0f;
     }
 
@@ -46,11 +42,14 @@ public class PlayerInPipeController : MonoBehaviour
 
     private void HandleDeformation()
     {
-        _gfx.localScale = new Vector3(_gfx.localScale.x, _gfx.localScale.y, _gfx.localScale.z + _config.CrouchInPipeSpeed * _input.z * Time.deltaTime);
-        _playerController.TensionMultiplier = Vector3.Distance(_head.transform.position, _playerController.CurrentPipeEnter.position);
+        _playerController.TensionMultiplier += _config.CrouchInPipeSpeed * _input.z * Time.deltaTime;
         if (_playerController.TensionMultiplier < 1.0f)
         {
             _playerController.TensionMultiplier = 1.0f;
+        }
+        if (_playerController.TensionMultiplier > _config.MaxTension)
+        {
+            _playerController.TensionMultiplier = _config.MaxTension;
         }
         Debug.Log($"Tension: {_playerController.TensionMultiplier}");
     }
