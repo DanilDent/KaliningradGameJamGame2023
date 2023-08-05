@@ -1224,5 +1224,49 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2639869090725732251, guid: 78961190f7bda9648bbcb69f710e25d4, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2639869091948536640, guid: 78961190f7bda9648bbcb69f710e25d4, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7709710014072912005, guid: 78961190f7bda9648bbcb69f710e25d4, type: 3}
+      propertyPath: m_Size.y
+      value: 4.207071
+      objectReference: {fileID: 0}
+    - target: {fileID: 7709710014072912005, guid: 78961190f7bda9648bbcb69f710e25d4, type: 3}
+      propertyPath: m_Size.z
+      value: 3.0517704
+      objectReference: {fileID: 0}
+    - target: {fileID: 7709710014072912005, guid: 78961190f7bda9648bbcb69f710e25d4, type: 3}
+      propertyPath: m_Center.x
+      value: 0.00000001245614
+      objectReference: {fileID: 0}
+    - target: {fileID: 7709710014072912005, guid: 78961190f7bda9648bbcb69f710e25d4, type: 3}
+      propertyPath: m_Center.y
+      value: 1.088368
+      objectReference: {fileID: 0}
+    - target: {fileID: 7709710014072912005, guid: 78961190f7bda9648bbcb69f710e25d4, type: 3}
+      propertyPath: m_Center.z
+      value: 1.0258806
+      objectReference: {fileID: 0}
+    - target: {fileID: 8085442919131764461, guid: 78961190f7bda9648bbcb69f710e25d4, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8085442919217771151, guid: 78961190f7bda9648bbcb69f710e25d4, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8085442919872433748, guid: 78961190f7bda9648bbcb69f710e25d4, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8085442920088758838, guid: 78961190f7bda9648bbcb69f710e25d4, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 78961190f7bda9648bbcb69f710e25d4, type: 3}
