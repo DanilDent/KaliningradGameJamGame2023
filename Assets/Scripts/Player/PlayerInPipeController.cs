@@ -21,6 +21,7 @@ public class PlayerInPipeController : MonoBehaviour
         _eventService.InteractButtonReleased += HandleInteractButtonReleased;
 
         _playerController.TensionMultiplier = 0f;
+        GetComponent<Rigidbody>().velocity = Vector3.zero;
     }
 
     private void Update()

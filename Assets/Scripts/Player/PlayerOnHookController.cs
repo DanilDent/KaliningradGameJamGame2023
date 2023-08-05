@@ -8,6 +8,7 @@ public class PlayerOnHookController : MonoBehaviour
     private void Start()
     {
         _playerController = PlayerController.Instance;
+        GetComponent<Rigidbody>().velocity = Vector3.zero;
         transform.forward = PlayerController.Instance.CurrentHook.transform.forward;
         _step = PlayerSettings.Instance.Config.HookBarFillerSpeed;
         StartCoroutine(HookTensionPercentCoroutine());
