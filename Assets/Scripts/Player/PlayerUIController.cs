@@ -8,6 +8,9 @@ public class PlayerUIController : MonoSingleton<PlayerUIController>
     private EventService _eventService;
     [SerializeField] private Canvas _canvas;
     [SerializeField] private Vector3 _offset;
+    //
+    [SerializeField] private Transform _progressBar;
+    [SerializeField] private Image _filler;
 
     protected override void Awake()
     {
@@ -42,6 +45,18 @@ public class PlayerUIController : MonoSingleton<PlayerUIController>
                 _eventService.InteractButtonReleased?.Invoke();
             }
         }
+
+        UpdateHookBar();
+    }
+
+    private void ShowProgressBar()
+    {
+        _progressBar.gameObject.SetActive(true);
+    }
+
+    private void HideProgressBar()
+    {
+        _progressBar.gameObject.SetActive(false);
     }
 
     private void HandleInteractButtonPressed()
@@ -64,8 +79,19 @@ public class PlayerUIController : MonoSingleton<PlayerUIController>
         _eventService.InteractButtonReleased -= HandleInteractButtonReleased;
     }
 
+    private void UpdateHookBar()
+    {
+        float value = PlayerController.Instance.HookTensionPercent;
+        _filler.fillAmount = value;
+    }
+
     private void HandleDisplayInteractButton()
     {
+        if (PlayerController.Instance.CurrentHook != null)
+        {
+            ShowProgressBar();
+        }
+
         if (transform.gameObject.TryGetComponent<PlayerInPipeController>(out var temp))
         {
             return;
@@ -76,6 +102,11 @@ public class PlayerUIController : MonoSingleton<PlayerUIController>
 
     private void HandleHideInteractButton()
     {
+        if (PlayerController.Instance.CurrentHook != null)
+        {
+            HideProgressBar();
+        }
+
         _interactButtonTransform.gameObject.SetActive(false);
     }
 }

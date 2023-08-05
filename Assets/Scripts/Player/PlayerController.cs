@@ -3,6 +3,7 @@
 public class PlayerController : MonoSingleton<PlayerController>
 {
     public float TensionMultiplier = 0f;
+    public float HookTensionPercent = 0f;
     public Transform CurrentPipeEnter;
     public Transform CurrentHook;
     [SerializeField] private Transform _gfx;
@@ -32,12 +33,24 @@ public class PlayerController : MonoSingleton<PlayerController>
 
     private void HandleBoostButtonPressed()
     {
-        gameObject.GetComponent<PlayerInPipeController>().enabled = false;
-        Destroy(gameObject.GetComponent<PlayerInPipeController>());
-        gameObject.AddComponent<PlayerMovementController>();
-        _rigidbody.AddForce(transform.forward * _config.PipeBoostForce * TensionMultiplier * _config.BoostScaler, ForceMode.Impulse);
-        _eventService.HideInteractButton?.Invoke();
-        TensionMultiplier = 0f;
+        if (CurrentPipeEnter != null)
+        {
+            gameObject.GetComponent<PlayerInPipeController>().enabled = false;
+            Destroy(gameObject.GetComponent<PlayerInPipeController>());
+            gameObject.AddComponent<PlayerMovementController>();
+            _rigidbody.AddForce(transform.forward * _config.PipeBoostForce * TensionMultiplier * _config.BoostScaler, ForceMode.Impulse);
+            _eventService.HideInteractButton?.Invoke();
+            TensionMultiplier = 0f;
+        }
+        else if (CurrentHook != null)
+        {
+            gameObject.GetComponent<PlayerOnHookController>().enabled = false;
+            Destroy(gameObject.GetComponent<PlayerOnHookController>());
+            gameObject.AddComponent<PlayerMovementController>();
+            _rigidbody.AddForce(transform.forward * _config.MaxTension * HookTensionPercent, ForceMode.Impulse);
+            _eventService.HideInteractButton?.Invoke();
+            HookTensionPercent = 0f;
+        }
     }
 
     private void HandleInteractButtonPressed()
@@ -87,8 +100,8 @@ public class PlayerController : MonoSingleton<PlayerController>
 
         if (other.gameObject.tag.Equals("HookTrigger") && CurrentHook == null)
         {
-            EventService.Instance.DisplayInteractButton?.Invoke();
             CurrentHook = other.transform;
+            EventService.Instance.DisplayInteractButton?.Invoke();
         }
     }
 
@@ -102,8 +115,8 @@ public class PlayerController : MonoSingleton<PlayerController>
 
         if (other.gameObject.tag.Equals("HookTrigger"))
         {
-            EventService.Instance.HideInteractButton?.Invoke();
             CurrentHook = null;
+            EventService.Instance.HideInteractButton?.Invoke();
         }
     }
 

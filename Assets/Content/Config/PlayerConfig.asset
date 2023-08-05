@@ -20,3 +20,5 @@ MonoBehaviour:
   CrouchInPipeSpeed: 0.5
   PipeBoostForce: 20
   BoostScaler: 1
+  MaxTension: 40
+  HookBarFillerSpeed: 0.6

@@ -11,4 +11,6 @@ public class PlayerSO : ScriptableObject
     public float CrouchInPipeSpeed;
     public float PipeBoostForce;
     public float BoostScaler;
+    public float MaxTension;
+    public float HookBarFillerSpeed;
 }
