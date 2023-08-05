@@ -9,10 +9,13 @@ public class PlayerMovementController
     private PlayerSO _config;
     private bool _isJump;
     private Transform _lowestPoint;
+    private PlayerAnimationsController _animController;
+
 
     private void Awake()
     {
         _rigidbody = GetComponent<Rigidbody>();
+        _animController = PlayerAnimationsController.Instance;
     }
 
     private void Start()
@@ -69,6 +72,7 @@ public class PlayerMovementController
     private void HandleInput()
     {
         _movement = new Vector3(0f, 0f, Input.GetAxis("Horizontal"));
+        _animController.UpdateVelocityX(_movement.magnitude);
     }
 
     private void HandleDeceleration()
