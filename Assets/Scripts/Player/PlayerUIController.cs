@@ -102,11 +102,7 @@ public class PlayerUIController : MonoSingleton<PlayerUIController>
 
     private void HandleHideInteractButton()
     {
-        if (PlayerController.Instance.CurrentHook != null)
-        {
-            HideProgressBar();
-        }
-
         _interactButtonTransform.gameObject.SetActive(false);
+        HideProgressBar();
     }
 }

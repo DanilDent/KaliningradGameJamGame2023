@@ -23,6 +23,11 @@ public class PlayerOnHookController : MonoBehaviour
         }
     }
 
+    private void OnDestroy()
+    {
+        _playerController.HookTensionPercent = 0f;
+    }
+
     private IEnumerator HookTensionPercentCoroutine()
     {
         while (true)
