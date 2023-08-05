@@ -79,6 +79,12 @@ public class PlayerMovementController
         }
 
         float epsilon = 0.01f;
+
+        if (Mathf.Approximately(Vector3.Dot(_movement.normalized, _rigidbody.velocity.normalized), -1f) && _rigidbody.velocity.magnitude > epsilon)
+        {
+            _rigidbody.velocity = Vector3.zero;
+        }
+
         if (_movement == Vector3.zero && _rigidbody.velocity.magnitude > epsilon)
         {
             _rigidbody.velocity = Vector3.zero;
