@@ -8,4 +8,7 @@ public class PlayerSO : ScriptableObject
     public float DecelerationRate;
     public float AirSpeed;
     public float JumpForce;
+    public float CrouchInPipeSpeed;
+    public float PipeBoostForce;
+    public float BoostScaler;
 }

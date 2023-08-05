@@ -13,7 +13,10 @@ MonoBehaviour:
   m_Name: PlayerConfig
   m_EditorClassIdentifier: 
   GroundedSpeed: 100
-  Acceleration: 800
-  DecelerationRate: 800
+  Acceleration: 300
+  DecelerationRate: 1000
   AirSpeed: 80
   JumpForce: 8
+  CrouchInPipeSpeed: 0.5
+  PipeBoostForce: 20
+  BoostScaler: 1

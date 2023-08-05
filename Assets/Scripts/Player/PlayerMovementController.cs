@@ -8,6 +8,7 @@ public class PlayerMovementController
     private bool _isGrounded;
     private PlayerSO _config;
     private bool _isJump;
+    private Transform _lowestPoint;
 
     private void Awake()
     {
@@ -17,6 +18,7 @@ public class PlayerMovementController
     private void Start()
     {
         _config = PlayerSettings.Instance.Config;
+        _lowestPoint = transform.Find("LowestPoint");
     }
 
     private void Update()
@@ -101,9 +103,9 @@ public class PlayerMovementController
 
     private void UpdateGrounded()
     {
-        Debug.DrawRay(transform.position + Vector3.up * 0.025f, -Vector3.up * 0.05f, Color.red);
+        Debug.DrawRay(_lowestPoint.position + Vector3.up * 0.025f, -Vector3.up * 0.05f, Color.red);
         int groundLayerMask = LayerMask.GetMask("Ground");
-        if (Physics.Raycast(transform.position + Vector3.up * 0.025f, -Vector3.up, out var hitInfo, 0.05f, groundLayerMask))
+        if (Physics.Raycast(_lowestPoint.position + Vector3.up * 0.025f, -Vector3.up, out var hitInfo, 0.05f, groundLayerMask))
         {
             _isGrounded = true;
             Debug.Log(hitInfo.collider.gameObject.layer);

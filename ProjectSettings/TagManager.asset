@@ -6,6 +6,7 @@ TagManager:
   tags:
   - EnterPipeTrigger
   - ExitPipeTrigger
+  - PipeTrigger
   layers:
   - Default
   - TransparentFX

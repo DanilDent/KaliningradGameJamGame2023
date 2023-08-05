@@ -59,6 +59,11 @@ public class PlayerUIController : MonoSingleton<PlayerUIController>
 
     private void HandleDisplayInteractButton()
     {
+        if (transform.gameObject.TryGetComponent<PlayerInPipeController>(out var temp))
+        {
+            return;
+        }
+        _interactButtonImg.color = Color.white;
         _interactButtonTransform.gameObject.SetActive(true);
     }
 
