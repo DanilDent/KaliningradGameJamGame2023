@@ -17,8 +17,8 @@ MonoBehaviour:
   DecelerationRate: 1000
   AirSpeed: 80
   JumpForce: 8
-  CrouchInPipeSpeed: 0.5
+  CrouchInPipeSpeed: 2
   PipeBoostForce: 20
   BoostScaler: 1
-  MaxTension: 40
+  MaxTension: 35
   HookBarFillerSpeed: 0.6
