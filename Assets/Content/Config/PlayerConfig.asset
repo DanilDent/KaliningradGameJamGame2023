@@ -13,12 +13,12 @@ MonoBehaviour:
   m_Name: PlayerConfig
   m_EditorClassIdentifier: 
   GroundedSpeed: 100
-  Acceleration: 300
+  Acceleration: 1000
   DecelerationRate: 1000
   AirSpeed: 80
-  JumpForce: 4
+  JumpForce: 8
   CrouchInPipeSpeed: 0.5
-  PipeBoostForce: 100
-  BoostScaler: 1
-  MaxTension: 40
+  MaxTensionOnHook: 0
   HookBarFillerSpeed: 0.6
+  WaterLevel: 0
+  MaxTensionInPipe: 100

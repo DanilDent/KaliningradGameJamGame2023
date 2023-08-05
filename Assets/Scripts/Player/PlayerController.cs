@@ -41,7 +41,7 @@ public class PlayerController : MonoSingleton<PlayerController>
             gameObject.GetComponent<PlayerInPipeController>().enabled = false;
             Destroy(gameObject.GetComponent<PlayerInPipeController>());
             gameObject.AddComponent<PlayerMovementController>();
-            _rigidbody.AddForce(transform.forward * _config.PipeBoostForce * TensionMultiplier * _config.BoostScaler, ForceMode.Impulse);
+            _rigidbody.AddForce(transform.forward * _config.MaxTensionInPipe * TensionMultiplier, ForceMode.Impulse);
             _eventService.HideInteractButton?.Invoke();
             TensionMultiplier = 0f;
         }
@@ -50,7 +50,7 @@ public class PlayerController : MonoSingleton<PlayerController>
             gameObject.GetComponent<PlayerOnHookController>().enabled = false;
             Destroy(gameObject.GetComponent<PlayerOnHookController>());
             gameObject.AddComponent<PlayerMovementController>();
-            _rigidbody.AddForce(transform.forward * _config.MaxTension * HookTensionPercent, ForceMode.Impulse);
+            _rigidbody.AddForce(transform.forward * _config.MaxTensionOnHook * HookTensionPercent, ForceMode.Impulse);
             _eventService.HideInteractButton?.Invoke();
             HookTensionPercent = 0f;
         }

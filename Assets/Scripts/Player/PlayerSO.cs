@@ -9,8 +9,8 @@ public class PlayerSO : ScriptableObject
     public float AirSpeed;
     public float JumpForce;
     public float CrouchInPipeSpeed;
-    public float PipeBoostForce;
-    public float BoostScaler;
-    public float MaxTension;
+    public float MaxTensionOnHook;
     public float HookBarFillerSpeed;
+    public float WaterLevel = -40f;
+    public float MaxTensionInPipe;
 }
