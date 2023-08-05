@@ -35,6 +35,8 @@ public class PlayerMovementController
         {
             _isJump = false;
         }
+
+        _animController.UpdateIsJump(!_isGrounded);
     }
 
     private void FixedUpdate()
@@ -62,6 +64,10 @@ public class PlayerMovementController
 
     private void HandleGroundedMovement()
     {
+        if (Mathf.Approximately(_rigidbody.velocity.magnitude, _config.GroundedSpeed) || _rigidbody.velocity.magnitude > _config.GroundedSpeed)
+        {
+            return;
+        }
         _rigidbody.AddForce(_movement * _config.Acceleration * Time.deltaTime, ForceMode.Acceleration);
         if (_rigidbody.velocity.magnitude > _config.GroundedSpeed)
         {
@@ -109,7 +115,6 @@ public class PlayerMovementController
     {
         _movement = new Vector3(0f, 0f, Input.GetAxis("Horizontal"));
         _rigidbody.AddForce(_movement * _config.AirSpeed * Time.deltaTime, ForceMode.Force);
-        transform.forward = _rigidbody.velocity;
     }
 
     private void UpdateGrounded()

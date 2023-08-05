@@ -20,7 +20,8 @@ public class PlayerInPipeController : MonoBehaviour
         _eventService = EventService.Instance;
         _eventService.InteractButtonReleased += HandleInteractButtonReleased;
 
-        _playerController.TensionMultiplier = 1.0f;
+        _playerController.TensionMultiplier = 0f;
+        GetComponent<Rigidbody>().velocity = Vector3.zero;
     }
 
     private void Update()
@@ -43,13 +44,13 @@ public class PlayerInPipeController : MonoBehaviour
     private void HandleDeformation()
     {
         _playerController.TensionMultiplier += _config.CrouchInPipeSpeed * _input.z * Time.deltaTime;
-        if (_playerController.TensionMultiplier < 1.0f)
+        if (_playerController.TensionMultiplier < 0f)
         {
-            _playerController.TensionMultiplier = 1.0f;
+            _playerController.TensionMultiplier = 0f;
         }
-        if (_playerController.TensionMultiplier > _config.MaxTension)
+        if (_playerController.TensionMultiplier > 1f)
         {
-            _playerController.TensionMultiplier = _config.MaxTension;
+            _playerController.TensionMultiplier = 1f;
         }
         Debug.Log($"Tension: {_playerController.TensionMultiplier}");
     }

@@ -17,7 +17,10 @@ public class PlayerController : MonoSingleton<PlayerController>
     {
         _rigidbody = GetComponent<Rigidbody>();
         _config = PlayerSettings.Instance.Config;
-        gameObject.AddComponent<PlayerMovementController>();
+        if (!gameObject.TryGetComponent<PlayerMovementController>(out var temp))
+        {
+            gameObject.AddComponent<PlayerMovementController>();
+        }
         _eventService = EventService.Instance;
         _animController = PlayerAnimationsController.Instance;
 
@@ -38,19 +41,27 @@ public class PlayerController : MonoSingleton<PlayerController>
         _wasBoostedUsed = true;
         if (CurrentPipeEnter != null)
         {
+            _rigidbody.useGravity = false;
+            _rigidbody.AddForce(CurrentPipeEnter.transform.forward * _config.MaxTensionInPipe * TensionMultiplier, ForceMode.Impulse);
             gameObject.GetComponent<PlayerInPipeController>().enabled = false;
             Destroy(gameObject.GetComponent<PlayerInPipeController>());
-            gameObject.AddComponent<PlayerMovementController>();
-            _rigidbody.AddForce(transform.forward * _config.PipeBoostForce * TensionMultiplier * _config.BoostScaler, ForceMode.Impulse);
+            if (!gameObject.TryGetComponent<PlayerMovementController>(out var temp))
+            {
+                gameObject.AddComponent<PlayerMovementController>();
+            }
             _eventService.HideInteractButton?.Invoke();
             TensionMultiplier = 0f;
         }
         else if (CurrentHook != null)
         {
+            _animController.UpdateIsHooked(false);
             gameObject.GetComponent<PlayerOnHookController>().enabled = false;
             Destroy(gameObject.GetComponent<PlayerOnHookController>());
-            gameObject.AddComponent<PlayerMovementController>();
-            _rigidbody.AddForce(transform.forward * _config.MaxTension * HookTensionPercent, ForceMode.Impulse);
+            if (!gameObject.TryGetComponent<PlayerMovementController>(out var temp))
+            {
+                gameObject.AddComponent<PlayerMovementController>();
+            }
+            _rigidbody.AddForce(CurrentHook.transform.forward * _config.MaxTensionOnHook * HookTensionPercent, ForceMode.Impulse);
             _eventService.HideInteractButton?.Invoke();
             HookTensionPercent = 0f;
         }
@@ -82,7 +93,10 @@ public class PlayerController : MonoSingleton<PlayerController>
         if (CurrentPipeEnter != null)
         {
             Destroy(gameObject.GetComponent<PlayerInPipeController>());
-            gameObject.AddComponent<PlayerMovementController>();
+            if (!gameObject.TryGetComponent<PlayerMovementController>(out var temp))
+            {
+                gameObject.AddComponent<PlayerMovementController>();
+            }
             if (!_wasBoostedUsed)
             {
                 transform.position = _prevPosition;
@@ -91,7 +105,10 @@ public class PlayerController : MonoSingleton<PlayerController>
         else if (CurrentHook != null)
         {
             Destroy(gameObject.GetComponent<PlayerOnHookController>());
-            gameObject.AddComponent<PlayerMovementController>();
+            if (!gameObject.TryGetComponent<PlayerMovementController>(out var temp))
+            {
+                gameObject.AddComponent<PlayerMovementController>();
+            }
             transform.forward = Vector3.forward;
             _animController.UpdateIsHooked(false);
         }
@@ -110,6 +127,7 @@ public class PlayerController : MonoSingleton<PlayerController>
         if (other.gameObject.tag.Equals("HookTrigger") && CurrentHook == null)
         {
             CurrentHook = other.transform;
+            _rigidbody.useGravity = true;
             EventService.Instance.DisplayInteractButton?.Invoke();
         }
     }
@@ -127,6 +145,13 @@ public class PlayerController : MonoSingleton<PlayerController>
             CurrentHook = null;
             EventService.Instance.HideInteractButton?.Invoke();
         }
-    }
 
+        if (other.gameObject.tag.Equals("PipeTrigger"))
+        {
+            EventService.Instance.HideInteractButton?.Invoke();
+            transform.localScale = Vector3.one;
+            _rigidbody.useGravity = true;
+            PlayerController.Instance.CurrentPipeEnter = null;
+        }
+    }
 }
