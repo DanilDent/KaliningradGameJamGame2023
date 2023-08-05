@@ -1232,6 +1232,30 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4497290511247225331, guid: 78961190f7bda9648bbcb69f710e25d4, type: 3}
+      propertyPath: m_Size.y
+      value: 1.4922352
+      objectReference: {fileID: 0}
+    - target: {fileID: 4497290511247225331, guid: 78961190f7bda9648bbcb69f710e25d4, type: 3}
+      propertyPath: m_Size.z
+      value: 2.1375322
+      objectReference: {fileID: 0}
+    - target: {fileID: 4497290511247225331, guid: 78961190f7bda9648bbcb69f710e25d4, type: 3}
+      propertyPath: m_Center.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4497290511247225331, guid: 78961190f7bda9648bbcb69f710e25d4, type: 3}
+      propertyPath: m_Center.y
+      value: 0.10358542
+      objectReference: {fileID: 0}
+    - target: {fileID: 4497290511247225331, guid: 78961190f7bda9648bbcb69f710e25d4, type: 3}
+      propertyPath: m_Center.z
+      value: -0.11230254
+      objectReference: {fileID: 0}
+    - target: {fileID: 4497290511247225331, guid: 78961190f7bda9648bbcb69f710e25d4, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7709710014072912005, guid: 78961190f7bda9648bbcb69f710e25d4, type: 3}
       propertyPath: m_Size.y
       value: 4.207071
@@ -1267,6 +1291,14 @@ PrefabInstance:
     - target: {fileID: 8085442920088758838, guid: 78961190f7bda9648bbcb69f710e25d4, type: 3}
       propertyPath: m_Layer
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8085442920088758839, guid: 78961190f7bda9648bbcb69f710e25d4, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.39
+      objectReference: {fileID: 0}
+    - target: {fileID: 8085442920088758839, guid: 78961190f7bda9648bbcb69f710e25d4, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 41.57
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 78961190f7bda9648bbcb69f710e25d4, type: 3}
