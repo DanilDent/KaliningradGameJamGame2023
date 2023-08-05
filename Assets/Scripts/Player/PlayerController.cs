@@ -6,11 +6,12 @@ public class PlayerController : MonoSingleton<PlayerController>
     public float HookTensionPercent = 0f;
     public Transform CurrentPipeEnter;
     public Transform CurrentHook;
-    [SerializeField] private Transform _gfx;
     private EventService _eventService;
     private Vector3 _prevPosition;
     private Rigidbody _rigidbody;
     private PlayerSO _config;
+    private PlayerAnimationsController _animController;
+    private bool _wasBoostedUsed = false;
 
     private void Start()
     {
@@ -18,6 +19,7 @@ public class PlayerController : MonoSingleton<PlayerController>
         _config = PlayerSettings.Instance.Config;
         gameObject.AddComponent<PlayerMovementController>();
         _eventService = EventService.Instance;
+        _animController = PlayerAnimationsController.Instance;
 
         _eventService.InteractButtonPressed += HandleInteractButtonPressed;
         _eventService.InteractButtonReleased += HandleInteractButtonReleased;
@@ -33,6 +35,7 @@ public class PlayerController : MonoSingleton<PlayerController>
 
     private void HandleBoostButtonPressed()
     {
+        _wasBoostedUsed = true;
         if (CurrentPipeEnter != null)
         {
             gameObject.GetComponent<PlayerInPipeController>().enabled = false;
@@ -59,10 +62,10 @@ public class PlayerController : MonoSingleton<PlayerController>
         {
             Destroy(gameObject.GetComponent<PlayerMovementController>());
             var pipeController = gameObject.AddComponent<PlayerInPipeController>();
-            _gfx.localScale = Vector3.one * 0.5f;
+            transform.localScale = Vector3.one * 0.25f;
             transform.forward = CurrentPipeEnter.forward;
             _prevPosition = transform.position;
-            pipeController.Init(CurrentPipeEnter, _gfx);
+            pipeController.Init(CurrentPipeEnter, transform);
         }
         else if (CurrentHook != null)
         {
@@ -70,6 +73,7 @@ public class PlayerController : MonoSingleton<PlayerController>
             gameObject.AddComponent<PlayerOnHookController>();
             transform.forward = CurrentHook.forward;
             _prevPosition = transform.position;
+            _animController.UpdateIsHooked(true);
         }
     }
 
@@ -77,17 +81,22 @@ public class PlayerController : MonoSingleton<PlayerController>
     {
         if (CurrentPipeEnter != null)
         {
-            _gfx.localScale = Vector3.one;
             Destroy(gameObject.GetComponent<PlayerInPipeController>());
             gameObject.AddComponent<PlayerMovementController>();
-            transform.position = _prevPosition;
+            if (!_wasBoostedUsed)
+            {
+                transform.position = _prevPosition;
+            }
         }
         else if (CurrentHook != null)
         {
             Destroy(gameObject.GetComponent<PlayerOnHookController>());
             gameObject.AddComponent<PlayerMovementController>();
             transform.forward = Vector3.forward;
+            _animController.UpdateIsHooked(false);
         }
+
+        _wasBoostedUsed = false;
     }
 
     private void OnTriggerEnter(Collider other)
