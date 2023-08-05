@@ -44,6 +44,7 @@ public class PlayerUIController : MonoSingleton<PlayerUIController>
 
     private void HandleInteractButtonReleased()
     {
+        _interactButtonImg.color = Color.white;
         _eventService.HideInteractButton?.Invoke();
     }
 

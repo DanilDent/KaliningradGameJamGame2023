@@ -4,6 +4,8 @@ public class PlayerController : MonoBehaviour
 {
     [SerializeField] private Transform GfxTransform;
     private EventService _eventService;
+    private Transform _pipe;
+    private Vector3 _prevPosition;
 
     private void Start()
     {
@@ -22,15 +24,19 @@ public class PlayerController : MonoBehaviour
 
     private void HandleInteractButtonPressed()
     {
-        GfxTransform.rotation = Quaternion.Euler(90f, 0f, 0f);
         Destroy(gameObject.GetComponent<PlayerMovementController>());
-        gameObject.AddComponent<PlayerInPipeController>();
+        var pipeController = gameObject.AddComponent<PlayerInPipeController>();
+        GfxTransform.localScale = Vector3.one * 0.8f;
+        _prevPosition = transform.position;
+        pipeController.Init(_pipe);
     }
 
     private void HandleInteractButtonReleased()
     {
-        GfxTransform.rotation = Quaternion.Euler(0f, 0f, 0f);
-
+        GfxTransform.localScale = Vector3.one;
+        Destroy(gameObject.GetComponent<PlayerInPipeController>());
+        gameObject.AddComponent<PlayerMovementController>();
+        transform.position = _prevPosition;
     }
 
     private void OnTriggerEnter(Collider other)
@@ -38,6 +44,7 @@ public class PlayerController : MonoBehaviour
         if (other.gameObject.tag.Equals("EnterPipeTrigger"))
         {
             EventService.Instance.DisplayInteractButton?.Invoke();
+            _pipe = other.transform;
         }
     }
 
@@ -46,6 +53,7 @@ public class PlayerController : MonoBehaviour
         if (other.gameObject.tag.Equals("EnterPipeTrigger"))
         {
             EventService.Instance.HideInteractButton?.Invoke();
+            _pipe = null;
         }
     }
 }
