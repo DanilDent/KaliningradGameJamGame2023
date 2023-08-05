@@ -14,5 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GroundedSpeed: 100
   Acceleration: 800
+  DecelerationRate: 800
   AirSpeed: 80
   JumpForce: 8

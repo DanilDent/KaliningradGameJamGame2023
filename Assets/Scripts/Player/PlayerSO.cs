@@ -5,6 +5,7 @@ public class PlayerSO : ScriptableObject
 {
     public float GroundedSpeed;
     public float Acceleration;
+    public float DecelerationRate;
     public float AirSpeed;
     public float JumpForce;
 }

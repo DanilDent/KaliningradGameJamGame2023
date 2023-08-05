@@ -7,6 +7,7 @@ public class PlayerMovementController
     private Vector3 _movement;
     private bool _isGrounded;
     private PlayerSO _config;
+    private bool _isJump;
 
     private void Awake()
     {
@@ -20,19 +21,35 @@ public class PlayerMovementController
 
     private void Update()
     {
+        HandleInput();
+        if (Input.GetButtonDown("Jump") && _isGrounded)
+        {
+            _isJump = true;
+        }
+        if (Input.GetButtonUp("Jump"))
+        {
+            _isJump = false;
+        }
+    }
+
+    private void FixedUpdate()
+    {
         UpdateGrounded();
         if (_isGrounded)
         {
             HandleGroundedMovement();
+            HandleDeceleration();
         }
         else
         {
             HandleAirMovement();
         }
 
-        if (Input.GetButtonDown("Jump") && _isGrounded)
+        HandleRotation();
+
+        if (_isJump && _isGrounded)
         {
-            _rigidbody.AddForce(Vector3.up * _config.JumpForce, ForceMode.Impulse);
+            _rigidbody.AddForce(transform.up * _config.JumpForce, ForceMode.Impulse);
         }
 
         Debug.Log($"Is grounded: {_isGrounded}");
@@ -40,12 +57,40 @@ public class PlayerMovementController
 
     private void HandleGroundedMovement()
     {
-        _movement = new Vector3(0f, 0f, Input.GetAxis("Horizontal"));
         _rigidbody.AddForce(_movement * _config.Acceleration * Time.deltaTime, ForceMode.Acceleration);
         if (_rigidbody.velocity.magnitude > _config.GroundedSpeed)
         {
-            _rigidbody.velocity = _rigidbody.velocity.normalized * _config.GroundedSpeed;
+            _rigidbody.velocity = new Vector3(_rigidbody.velocity.x, _rigidbody.velocity.y, _rigidbody.velocity.z * (1f / _config.DecelerationRate));
         }
+    }
+
+    private void HandleInput()
+    {
+        _movement = new Vector3(0f, 0f, Input.GetAxis("Horizontal"));
+    }
+
+    private void HandleDeceleration()
+    {
+        if (!_isGrounded)
+        {
+            return;
+        }
+
+        float epsilon = 0.01f;
+        if (_movement == Vector3.zero && _rigidbody.velocity.magnitude > epsilon)
+        {
+            _rigidbody.velocity = Vector3.zero;
+        }
+    }
+
+    private void HandleRotation()
+    {
+        if (_movement == Vector3.zero)
+        {
+            return;
+        }
+
+        transform.forward = _movement;
     }
 
     private void HandleAirMovement()
