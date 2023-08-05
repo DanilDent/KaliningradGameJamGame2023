@@ -4,6 +4,7 @@ public class PlayerController : MonoSingleton<PlayerController>
 {
     public float TensionMultiplier = 0f;
     public Transform CurrentPipeEnter;
+    public Transform CurrentHook;
     [SerializeField] private Transform _gfx;
     private EventService _eventService;
     private Vector3 _prevPosition;
@@ -41,20 +42,39 @@ public class PlayerController : MonoSingleton<PlayerController>
 
     private void HandleInteractButtonPressed()
     {
-        Destroy(gameObject.GetComponent<PlayerMovementController>());
-        var pipeController = gameObject.AddComponent<PlayerInPipeController>();
-        _gfx.localScale = Vector3.one * 0.5f;
-        transform.forward = CurrentPipeEnter.forward;
-        _prevPosition = transform.position;
-        pipeController.Init(CurrentPipeEnter, _gfx);
+        if (CurrentPipeEnter != null)
+        {
+            Destroy(gameObject.GetComponent<PlayerMovementController>());
+            var pipeController = gameObject.AddComponent<PlayerInPipeController>();
+            _gfx.localScale = Vector3.one * 0.5f;
+            transform.forward = CurrentPipeEnter.forward;
+            _prevPosition = transform.position;
+            pipeController.Init(CurrentPipeEnter, _gfx);
+        }
+        else if (CurrentHook != null)
+        {
+            Destroy(gameObject.GetComponent<PlayerMovementController>());
+            gameObject.AddComponent<PlayerOnHookController>();
+            transform.forward = CurrentHook.forward;
+            _prevPosition = transform.position;
+        }
     }
 
     private void HandleInteractButtonReleased()
     {
-        _gfx.localScale = Vector3.one;
-        Destroy(gameObject.GetComponent<PlayerInPipeController>());
-        gameObject.AddComponent<PlayerMovementController>();
-        transform.position = _prevPosition;
+        if (CurrentPipeEnter != null)
+        {
+            _gfx.localScale = Vector3.one;
+            Destroy(gameObject.GetComponent<PlayerInPipeController>());
+            gameObject.AddComponent<PlayerMovementController>();
+            transform.position = _prevPosition;
+        }
+        else if (CurrentHook != null)
+        {
+            Destroy(gameObject.GetComponent<PlayerOnHookController>());
+            gameObject.AddComponent<PlayerMovementController>();
+            transform.forward = Vector3.forward;
+        }
     }
 
     private void OnTriggerEnter(Collider other)
@@ -64,6 +84,12 @@ public class PlayerController : MonoSingleton<PlayerController>
             EventService.Instance.DisplayInteractButton?.Invoke();
             CurrentPipeEnter = other.transform;
         }
+
+        if (other.gameObject.tag.Equals("HookTrigger") && CurrentHook == null)
+        {
+            EventService.Instance.DisplayInteractButton?.Invoke();
+            CurrentHook = other.transform;
+        }
     }
 
     private void OnTriggerExit(Collider other)
@@ -72,6 +98,12 @@ public class PlayerController : MonoSingleton<PlayerController>
         {
             EventService.Instance.HideInteractButton?.Invoke();
             CurrentPipeEnter = null;
+        }
+
+        if (other.gameObject.tag.Equals("HookTrigger"))
+        {
+            EventService.Instance.HideInteractButton?.Invoke();
+            CurrentHook = null;
         }
     }
 

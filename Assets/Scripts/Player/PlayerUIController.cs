@@ -6,6 +6,8 @@ public class PlayerUIController : MonoSingleton<PlayerUIController>
     [SerializeField] private Transform _interactButtonTransform;
     [SerializeField] private Image _interactButtonImg;
     private EventService _eventService;
+    [SerializeField] private Canvas _canvas;
+    [SerializeField] private Vector3 _offset;
 
     protected override void Awake()
     {
@@ -23,6 +25,11 @@ public class PlayerUIController : MonoSingleton<PlayerUIController>
 
     private void Update()
     {
+        if (!transform.gameObject.TryGetComponent<PlayerOnHookController>(out var temp))
+        {
+            _canvas.transform.position = transform.position + _offset;
+        }
+
         if (_interactButtonTransform.gameObject.activeInHierarchy)
         {
             if (Input.GetKeyDown(KeyCode.E))

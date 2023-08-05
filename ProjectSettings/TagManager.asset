@@ -7,6 +7,7 @@ TagManager:
   - EnterPipeTrigger
   - ExitPipeTrigger
   - PipeTrigger
+  - HookTrigger
   layers:
   - Default
   - TransparentFX
