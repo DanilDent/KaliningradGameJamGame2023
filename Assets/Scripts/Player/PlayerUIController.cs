@@ -28,7 +28,8 @@ public class PlayerUIController : MonoSingleton<PlayerUIController>
 
     private void Update()
     {
-        if (!transform.gameObject.TryGetComponent<PlayerOnHookController>(out var temp))
+        if (!transform.gameObject.TryGetComponent<PlayerOnHookController>(out var temp) &&
+            !transform.gameObject.TryGetComponent<PlayerInPipeController>(out var temp2))
         {
             _canvas.transform.position = transform.position + _offset;
         }
