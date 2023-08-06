@@ -13,6 +13,14 @@ public class GameManager : MonoSingleton<GameManager>
         _config = PlayerSettings.Instance.Config;
     }
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            Application.Quit();
+        }
+    }
+
     private void LateUpdate()
     {
         if (_playerController.transform.position.y < _config.WaterLevel)
