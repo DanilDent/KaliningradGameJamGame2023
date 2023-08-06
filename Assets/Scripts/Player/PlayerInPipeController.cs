@@ -26,7 +26,13 @@ public class PlayerInPipeController : MonoBehaviour
 
     private void Update()
     {
-        transform.position = _pipe.transform.position;
+        if (_pipe != null)
+        {
+            transform.position = _pipe.transform.position;
+        }
+
+        PlayerUIController.Instance.UpdateBtnColor(Color.green);
+
         HandleInput();
         HandleDeformation();
     }

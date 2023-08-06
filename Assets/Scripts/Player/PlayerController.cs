@@ -74,7 +74,7 @@ public class PlayerController : MonoSingleton<PlayerController>
             Destroy(gameObject.GetComponent<PlayerMovementController>());
             var pipeController = gameObject.AddComponent<PlayerInPipeController>();
             transform.localScale = Vector3.one * 0.25f;
-            transform.forward = CurrentPipeEnter.forward;
+            transform.rotation = CurrentPipeEnter.rotation;
             _prevPosition = transform.position;
             pipeController.Init(CurrentPipeEnter, transform);
         }
@@ -82,7 +82,7 @@ public class PlayerController : MonoSingleton<PlayerController>
         {
             Destroy(gameObject.GetComponent<PlayerMovementController>());
             gameObject.AddComponent<PlayerOnHookController>();
-            transform.forward = CurrentHook.forward;
+            transform.rotation = CurrentHook.rotation;
             _prevPosition = transform.position;
             _animController.UpdateIsHooked(true);
         }

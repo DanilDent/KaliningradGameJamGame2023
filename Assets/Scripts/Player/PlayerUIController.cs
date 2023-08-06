@@ -50,6 +50,11 @@ public class PlayerUIController : MonoSingleton<PlayerUIController>
         UpdateHookBar();
     }
 
+    public void UpdateBtnColor(Color color)
+    {
+        _interactButtonImg.color = color;
+    }
+
     private void ShowProgressBar()
     {
         _progressBar.gameObject.SetActive(true);

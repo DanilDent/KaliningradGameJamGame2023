@@ -16,7 +16,12 @@ public class PlayerOnHookController : MonoBehaviour
 
     private void Update()
     {
-        transform.position = PlayerController.Instance.CurrentHook.transform.position;
+        if (PlayerController.Instance.CurrentHook != null)
+        {
+            transform.position = PlayerController.Instance.CurrentHook.transform.position;
+        }
+
+        PlayerUIController.Instance.UpdateBtnColor(Color.green);
 
         if (Input.GetButtonDown("Jump"))
         {
