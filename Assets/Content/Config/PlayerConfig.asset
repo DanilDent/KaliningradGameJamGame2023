@@ -15,10 +15,10 @@ MonoBehaviour:
   GroundedSpeed: 5
   Acceleration: 1000
   DecelerationRate: 1000
-  AirSpeed: 80
-  JumpForce: 8
+  AirSpeed: 75
+  JumpForce: 7
   CrouchInPipeSpeed: 0.5
-  MaxTensionOnHook: 50
-  HookBarFillerSpeed: 0.6
+  MaxTensionOnHook: 25
+  HookBarFillerSpeed: 0.8
   WaterLevel: 0
   MaxTensionInPipe: 80
