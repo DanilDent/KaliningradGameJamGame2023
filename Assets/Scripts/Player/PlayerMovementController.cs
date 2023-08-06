@@ -37,6 +37,10 @@ public class PlayerMovementController
         }
 
         _animController.UpdateIsJump(!_isGrounded);
+        if (_isGrounded == true)
+        {
+            _animController.UpdateIsFly(false);
+        }
     }
 
     private void FixedUpdate()
@@ -126,6 +130,8 @@ public class PlayerMovementController
             if (!_isGrounded)
             {
                 _animController.UpdateIsJump(false);
+                _animController.UpdateIsFly(false);
+                _animController.UpdateIsHooked(false);
             }
             _isGrounded = true;
         }

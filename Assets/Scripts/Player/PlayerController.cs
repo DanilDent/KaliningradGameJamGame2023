@@ -41,6 +41,7 @@ public class PlayerController : MonoSingleton<PlayerController>
         _wasBoostedUsed = true;
         if (CurrentPipeEnter != null)
         {
+            _animController.UpdateIsFly(true);
             _rigidbody.useGravity = false;
             _rigidbody.AddForce(CurrentPipeEnter.transform.forward * _config.MaxTensionInPipe * TensionMultiplier, ForceMode.Impulse);
             gameObject.GetComponent<PlayerInPipeController>().enabled = false;
@@ -54,7 +55,7 @@ public class PlayerController : MonoSingleton<PlayerController>
         }
         else if (CurrentHook != null)
         {
-            _animController.UpdateIsHooked(false);
+            _animController.UpdateIsFly(true);
             gameObject.GetComponent<PlayerOnHookController>().enabled = false;
             Destroy(gameObject.GetComponent<PlayerOnHookController>());
             if (!gameObject.TryGetComponent<PlayerMovementController>(out var temp))
@@ -77,6 +78,7 @@ public class PlayerController : MonoSingleton<PlayerController>
             transform.rotation = CurrentPipeEnter.rotation;
             _prevPosition = transform.position;
             pipeController.Init(CurrentPipeEnter, transform);
+            _animController.UpdateIsHooked(true);
         }
         else if (CurrentHook != null)
         {
@@ -101,6 +103,7 @@ public class PlayerController : MonoSingleton<PlayerController>
             {
                 transform.position = _prevPosition;
             }
+            _animController.UpdateIsHooked(false);
         }
         else if (CurrentHook != null)
         {
@@ -140,7 +143,7 @@ public class PlayerController : MonoSingleton<PlayerController>
             CurrentPipeEnter = null;
         }
 
-        if (other.gameObject.tag.Equals("HookTrigger"))
+        if (other.gameObject.tag.Equals("HookTrigger") && !transform.TryGetComponent<PlayerOnHookController>(out var temp))
         {
             CurrentHook = null;
             EventService.Instance.HideInteractButton?.Invoke();

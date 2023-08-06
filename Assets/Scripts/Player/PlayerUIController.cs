@@ -11,6 +11,7 @@ public class PlayerUIController : MonoSingleton<PlayerUIController>
     //
     [SerializeField] private Transform _progressBar;
     [SerializeField] private Image _filler;
+    private PlayerAnimationsController _animController;
 
     protected override void Awake()
     {
@@ -20,6 +21,8 @@ public class PlayerUIController : MonoSingleton<PlayerUIController>
 
     private void Start()
     {
+        _animController = PlayerAnimationsController.Instance;
+
         _eventService.DisplayInteractButton += HandleDisplayInteractButton;
         _eventService.HideInteractButton += HandleHideInteractButton;
         _eventService.InteractButtonPressed += HandleInteractButtonPressed;

@@ -5,6 +5,7 @@ public class PlayerAnimationsController : MonoSingleton<PlayerAnimationsControll
     private int _velocityXHash;
     private int _isJumpHash;
     private int _isHookedHash;
+    private int _isFlyHash;
     private Animator _animator;
 
     private void Start()
@@ -14,6 +15,12 @@ public class PlayerAnimationsController : MonoSingleton<PlayerAnimationsControll
         _velocityXHash = Animator.StringToHash("VelocityX");
         _isJumpHash = Animator.StringToHash("IsJump");
         _isHookedHash = Animator.StringToHash("IsHooked");
+        _isFlyHash = Animator.StringToHash("IsFly");
+    }
+
+    public void UpdateIsFly(bool isFly)
+    {
+        _animator.SetBool(_isFlyHash, isFly);
     }
 
     public void UpdateVelocityX(float velocityX)
